@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 
 	JavaVMInitArgs args = {};
 	api.GetDefaultJavaVMInitArgs(&args);
+	args.version = JNI_VERSION_10;
 	
 	JNIEnv * env = NULL;
 	JavaVM * jvm = NULL;
