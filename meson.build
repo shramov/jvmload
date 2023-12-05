@@ -4,7 +4,7 @@ project('tll', 'c', 'java'
 	, meson_version: '>= 0.62'
 	)
 
-jvm =  dependency('jni', version: '>= 1.8.0', modules: ['jvm'])
+jvm =  dependency('jni')
 dl = meson.get_compiler('c').find_library('dl', required: false) # Not needed since glibc 2.34
 
 jvmload = shared_library('jvmload',
