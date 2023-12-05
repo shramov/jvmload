@@ -19,6 +19,8 @@ typedef struct
 	jint (*GetCreatedJavaVMs)(JavaVM **, jsize, jsize *);
 } JVMApi;
 
+/// Translate java home to libjvm.so path
+char * jvmload_library_path(const char * java_home);
 int jvmload_load(JVMApi * api, const char * java_home);
 void jvmload_unload(JVMApi * api);
 

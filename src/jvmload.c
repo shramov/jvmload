@@ -8,10 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int jvmload_load(JVMApi * api, const char * java_home)
+char * jvmload_library_path(const char * java_home)
 {
-	if (!api)
-		return EINVAL;
 	if (!java_home)
 		java_home = "";
 	
@@ -29,7 +27,18 @@ int jvmload_load(JVMApi * api, const char * java_home)
 	strcpy(buf, java_home);
 	strcat(buf, suffix);
 
+	return buf;
+}
+
+int jvmload_load(JVMApi * api, const char * java_home)
+{
+	if (!api)
+		return EINVAL;
+
+	char * buf = jvmload_library_path(java_home);
+
 	api->library = dlopen(buf, RTLD_NOW);
+
 	free(buf);
 
 	if (!api->library)
