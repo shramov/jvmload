@@ -12,7 +12,7 @@ char * jvmload_library_path(const char * java_home)
 {
 	if (!java_home)
 		java_home = "";
-	
+
 	if (strcmp(java_home, "") == 0) {
 		const char * env = getenv("JAVA_HOME");
 		if (env)
@@ -21,7 +21,7 @@ char * jvmload_library_path(const char * java_home)
 
 	if (strcmp(java_home, "") == 0)
 		java_home = "/usr/lib/jvm/default-java";
-	
+
 	const char * suffix = "/lib/server/libjvm.so";
 	char * buf = malloc(strlen(java_home) + strlen(suffix) + 1);
 	strcpy(buf, java_home);

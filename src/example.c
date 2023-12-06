@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 		args.options = options;
 		args.nOptions = argc - 2;
 	}
-	
+
 	JNIEnv * env = NULL;
 	JavaVM * jvm = NULL;
 	if (api.CreateJavaVM(&jvm, (void **) &env, &args) < 0) {
