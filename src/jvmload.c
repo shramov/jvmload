@@ -30,6 +30,21 @@ char * jvmload_library_path(const char * java_home)
 	return buf;
 }
 
+int jvmload_fill(JVMApi * api, void * handle)
+{
+	if (!api || !handle)
+		return EINVAL;
+
+	api->GetDefaultJavaVMInitArgs = dlsym(api->library, "JNI_GetDefaultJavaVMInitArgs");
+	api->CreateJavaVM = dlsym(api->library, "JNI_CreateJavaVM");
+	api->GetCreatedJavaVMs = dlsym(api->library, "JNI_GetCreatedJavaVMs");
+
+	if (!api->GetDefaultJavaVMInitArgs || !api->CreateJavaVM || !api->GetCreatedJavaVMs)
+		return ENOENT;
+
+	return 0;
+}
+
 int jvmload_load(JVMApi * api, const char * java_home)
 {
 	if (!api)
@@ -43,15 +58,8 @@ int jvmload_load(JVMApi * api, const char * java_home)
 
 	if (!api->library)
 		return ENOENT;
-	
-	api->GetDefaultJavaVMInitArgs = dlsym(api->library, "JNI_GetDefaultJavaVMInitArgs");
-	api->CreateJavaVM = dlsym(api->library, "JNI_CreateJavaVM");
-	api->GetCreatedJavaVMs = dlsym(api->library, "JNI_GetCreatedJavaVMs");
 
-	if (!api->GetDefaultJavaVMInitArgs || !api->CreateJavaVM || !api->GetCreatedJavaVMs)
-		return ENOENT;
-	
-	return 0;
+	return jvmload_fill(api, api->library);
 }
 
 void jvmload_unload(JVMApi * api)

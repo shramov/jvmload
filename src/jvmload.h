@@ -21,6 +21,9 @@ typedef struct
 
 /// Translate java home to libjvm.so path
 char * jvmload_library_path(const char * java_home);
+/// Fill API structure from library handle
+int jvmload_fill(JVMApi * api, void * handle);
+
 int jvmload_load(JVMApi * api, const char * java_home);
 void jvmload_unload(JVMApi * api);
 
