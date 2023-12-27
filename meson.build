@@ -7,10 +7,12 @@ project('tll', 'c', 'java'
 jvm =  dependency('jni')
 dl = meson.get_compiler('c').find_library('dl', required: false) # Not needed since glibc 2.34
 
-jvmload = shared_library('jvmload',
+jvmload = static_library('jvmload',
 		['src/jvmload.c'],
 		dependencies : [jvm, dl],
 		install : true
 )
 
-executable('example', ['src/example.c'], include_directories: include_directories('src'), link_with: jvmload, dependencies: jvm)
+jvmload_dep = declare_dependency(include_directories: include_directories('src'), link_with: jvmload)
+
+executable('example', ['src/example.c'], dependencies: [jvm, jvmload_dep])
